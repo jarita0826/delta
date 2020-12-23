@@ -11,10 +11,10 @@ export default {
     },
 
     // Global CSS (https://go.nuxtjs.dev/config-css)
-    css: [],
+    css: ["@/assets/css/main.css"],
 
     // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-    plugins: [],
+    plugins: ["~/plugins/font-awesome"],
 
     // Auto import components (https://go.nuxtjs.dev/config-components)
     components: true,
@@ -30,6 +30,7 @@ export default {
         "@nuxtjs/pwa",
         // https://go.nuxtjs.dev/content
         "@nuxt/content",
+        "nuxt-fontawesome",
     ],
 
     // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -40,4 +41,23 @@ export default {
 
     // Build Configuration (https://go.nuxtjs.dev/config-build)
     build: {},
+    fontawesome: {
+        // See https://github.com/vaso2/nuxt-fontawesome
+        // 这里设置了组建的标签为fa
+        // 如果不设置，则默认为在font-awesome.js中，生成的：font-awesome-icon
+        component: "fa",
+        imports: [{
+                set: "@fortawesome/free-solid-svg-icons",
+                icons: ["fas"],
+            },
+            {
+                set: "@fortawesome/free-regular-svg-icons",
+                icons: ["far"],
+            },
+            {
+                set: "@fortawesome/free-brands-svg-icons",
+                icons: ["fab"],
+            },
+        ],
+    },
 };
