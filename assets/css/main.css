@@ -35,6 +35,27 @@
   column-count: 3;
 }
 
-.border-1 {
-  border-width: 1px;
+.border-b-1 {
+}
+
+.button-leftarrow {
+  width: 3.125rem;
+  height: 3.125rem;
+  cursor: pointer;
+  border-width: 0;
+}
+
+.swapfield {
+  width: 3.625rem;
+  height: 1.85rem;
+  margin-top: 1.125rem;
+}
+
+.selectParent {
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png)
+    no-repeat right;
+  line-height: 1;
+  border: 0;
+  -webkit-appearance: none;
+  border-bottom-width: 1px;
 }

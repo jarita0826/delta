@@ -3,53 +3,16 @@
     <div class="" id="menu1">
       <div class="text-white p-6 border-b-2 border-text">
         <div class="flex container mx-auto justify-between list-none">
-          <div class="flex font-bold space-x-4">
-            <div class="dropbtn">
-              <li @click="clearViewModel">
-                <nuxt-link to="/">BOOK</nuxt-link>
-              </li>
-              <div class="w-full bg-primary text-white p-4 dropdown-content">
-                <div class="flex container mx-auto">
-                  <form action="">
-                    <div class="w-11/12 my-4 pr-4">
-                      <!-- 彈跳視窗 -->
-                      <nuxt-link to="/">From</nuxt-link>
-                      <!-- 相反箭頭 -->
-                      <!-- 彈跳視窗 -->
-                      <nuxt-link to="/">To</nuxt-link>
-                      <!-- 下拉式 -->
-                      <select>
-                        <option value="Round Trip">Round Trip</option>
-                        <option value="OneWay">One Way</option>
-                        <option value="Multi-City">Multi-City</option>
-                      </select>
-                      <!-- 日期 -->
-                      <!-- 下拉式 -->
-                      <select>
-                        <option value="1Passenger">1 Passenger</option>
-                        <option value="2Passengers">2 Passengers</option>
-                        <option value="3Passengers">3 Passengers</option>
-                        <option value="4Passengers">4 Passengers</option>
-                        <option value="5Passengers">5 Passengers</option>
-                        <option value="6Passengers">6 Passengers</option>
-                        <option value="7Passengers">7 Passengers</option>
-                        <option value="8Passengers">8 Passengers</option>
-                        <option value="9Passengers">9 Passengers</option>
-                      </select>
+          <ul class="flex font-bold space-x-4">
+            <!-- @click="clearViewModel" -->
+            <li>
+              <div class="dropbtn">
+                <nuxt-link to="/BOOK" class="pb-6">BOOK</nuxt-link>
+                <!-- Dropdown -->
 
-                      <!-- ---------------- -->
-
-                      <!-- 勾選欄位+彈跳視窗 -->
-                      <!-- 勾選欄位+彈跳視窗 -->
-                      <!-- 勾選欄位 -->
-                    </div>
-                    <div class="text-white w-1/12 my-4 px-4 font-semibold">
-                      <!-- 按鈕 -->
-                    </div>
-                  </form>
-                </div>
+                <!-- Dropdown -->
               </div>
-            </div>
+            </li>
             <li>
               <nuxt-link to="/">CHECK-IN</nuxt-link>
             </li>
@@ -62,9 +25,9 @@
             <li>
               <nuxt-link to="/">STATUS</nuxt-link>
             </li>
-          </div>
+          </ul>
 
-          <div class="flex font-medium space-x-4 menu">
+          <ul class="flex font-medium space-x-4 menu">
             <li>
               <div class="dropbtn">
                 <nuxt-link to="/TravelInfo" class="pb-6">Travel Info</nuxt-link>
@@ -175,9 +138,9 @@
                 <!-- Dropdown -->
               </div>
             </li>
-          </div>
+          </ul>
 
-          <div class="flex font-bold space-x-4">
+          <ul class="flex font-bold space-x-4">
             <li><nuxt-link to="/Sigh">SIGH UP</nuxt-link></li>
             <li>
               <nuxt-link to="/Login" class="bg-red py-1 px-2">LOG IN</nuxt-link>
@@ -192,11 +155,82 @@
                 <!-- <fa :icon="['fas', 'search']"/> -->
               </nuxt-link>
             </li>
-          </div>
+          </ul>
         </div>
       </div>
     </div>
+    <div class="container mx-auto justify-between list-none">
+      <div class="w-full bg-primary text-white p-4">
+        <div class="flex container mx-auto">
+          <form action="" class="flex justify-around w-full">
+            <div class="flex w-11/12 flx my-4 pr-4">
+              <div class="flex w-2/5 space-x-4 justify-center">
+                <!-- 彈跳視窗 -->
+                <nuxt-link to="/">
+                  <div class="text-6xl text-center">From</div>
+                  <div class="text-sm text-center">Your Origin</div>
+                </nuxt-link>
+                <!-- 相反箭頭 -->
+                <button class="text-red">
+                  <fa
+                    :icon="['fas', 'arrows-alt-h']"
+                    class="font-light text-5xl"
+                  />
+                </button>
 
+                <!-- 彈跳視窗 -->
+                <nuxt-link to="/">
+                  <div class="text-6xl text-center">To</div>
+
+                  <div class="text-sm text-center">Your Destination</div>
+                </nuxt-link>
+              </div>
+              <!-- 下拉式 -->
+              <div class="flex w-3/5">
+                <div class="h-60 relative">
+                  <span class="absolute right-2"
+                    ><fa :icon="['fas', 'chevron-down']"
+                  /></span>
+                  <select
+                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red selectParent"
+                  >
+                    <option value="Round Trip">Round Trip</option>
+                    <option value="OneWay">One Way</option>
+                    <option value="Multi-City">Multi-City</option>
+                  </select>
+                </div>
+                <!-- 日期 -->
+                <!-- 下拉式 -->
+                <div class="h-60">
+                  <select class="bg-primary">
+                    <option value="1Passenger">1 Passenger</option>
+                    <option value="2Passengers">2 Passengers</option>
+                    <option value="3Passengers">3 Passengers</option>
+                    <option value="4Passengers">4 Passengers</option>
+                    <option value="5Passengers">5 Passengers</option>
+                    <option value="6Passengers">6 Passengers</option>
+                    <option value="7Passengers">7 Passengers</option>
+                    <option value="8Passengers">8 Passengers</option>
+                    <option value="9Passengers">9 Passengers</option>
+                  </select>
+                </div>
+              </div>
+              <!-- ---------------- -->
+
+              <!-- 勾選欄位+彈跳視窗 -->
+              <!-- 勾選欄位+彈跳視窗 -->
+              <!-- 勾選欄位 -->
+            </div>
+            <div class="text-white w-1/12 my-4 px-4 font-semibold">
+              <!-- 按鈕 -->
+              <button class="button-leftarrow bg-red rounded-full">
+                <fa :icon="['fas', 'arrow-right']" />
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <Nuxt />
     <div class="bg-primary text-white font-semibold">
       <div class="container mx-auto">
@@ -287,18 +321,24 @@
 
           <div class="flex text-2xl space-x-4 p-4">
             <div class="w-1/2 flex justify-end space-x-4">
-              <nuxt-link to="/" class="rounded-full border-1 px-4 pt-2"
-                ><fa :icon="['fab', 'facebook-f']"
-              /></nuxt-link>
-              <nuxt-link to="/" class="rounded-full border-1 px-3 py-2"
-                ><fa :icon="['fab', 'twitter']"
-              /></nuxt-link>
+              <button
+                class="button-leftarrow rounded-full border-1 border-white"
+              >
+                <fa :icon="['fab', 'facebook-f']" />
+              </button>
+
+              <button
+                class="button-leftarrow rounded-full border-1 border-white"
+              >
+                <fa :icon="['fab', 'twitter']" />
+              </button>
             </div>
 
-            <div class="w-1/2 border-l-2 pl-4 text-4xl border-gray-300">
-              <nuxt-link to="/">
-                <fa :icon="['fas', 'globe']" class="rounded-full border-2" /> -
-              </nuxt-link>
+            <div class="w-1/2 border-l-2 pl-4 text-4xl">
+              <button class="button-leftarrow rounded-full">
+                <fa :icon="['fas', 'globe']" />
+                -
+              </button>
             </div>
           </div>
         </div>
