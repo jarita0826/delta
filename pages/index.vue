@@ -1,6 +1,14 @@
 <template>
   <div class="text-white">
-    <div class="container mx-auto">111</div>
+    <div class="container mx-auto">
+      <div></div>
+      <div>
+        <nuxt-link to="/"
+          >Updated Bag & Travel Fees
+          <fa :icon="['fas', 'chevron-right']" class="ml-4 text-text text-xl" />
+        </nuxt-link>
+      </div>
+    </div>
   </div>
 </template>
 

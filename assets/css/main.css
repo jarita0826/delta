@@ -36,6 +36,7 @@
 }
 
 .border-b-1 {
+  border-bottom-width: 1px;
 }
 
 .button-leftarrow {
@@ -51,11 +52,92 @@
   margin-top: 1.125rem;
 }
 
-.selectParent {
-  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png)
-    no-repeat right;
-  line-height: 1;
-  border: 0;
-  -webkit-appearance: none;
-  border-bottom-width: 1px;
+.checkbox {
+  position: relative;
+  display: block;
+}
+
+.checkbox label {
+  position: relative;
+  min-height: 34px;
+  display: block;
+  padding-left: 40px;
+  margin-bottom: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.checkbox label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 4px;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.28s ease;
+  border-radius: 1px;
+  border: 2px solid #7d8388;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.checkbox label::after {
+  content: "";
+  display: block;
+  width: 13px;
+  height: 6px;
+  border-bottom: 2px solid #7d8388;
+  border-left: 2px solid #7d8388;
+  transform: rotate(-45deg) scale(0);
+  transition: transform ease 0.15s;
+  position: absolute;
+  top: 12px;
+  left: 10px;
+}
+
+input[type="checkbox"] {
+  width: auto;
+  opacity: 0.00000001;
+  position: absolute;
+  left: 0;
+  margin-left: -20px;
+}
+
+input[type="checkbox"]:checked ~ label::after {
+  transform: rotate(-45deg) scale(1);
+}
+
+input[type="checkbox"]:focus + label::before {
+  outline: 0;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+input[type="text"] {
+  border: 0 none;
+  background: #11172b;
+}
+
+input[type="text"]::placeholder {
+  color: #7d8388;
+}
+.confirmation {
+  border-bottom: 1px solid #7d8388;
 }

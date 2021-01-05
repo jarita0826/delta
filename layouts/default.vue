@@ -1,10 +1,9 @@
 <template>
   <div class="bg-primary">
-    <div class="" id="menu1">
+    <div>
       <div class="text-white p-6 border-b-2 border-text">
         <div class="flex container mx-auto justify-between list-none">
           <ul class="flex font-bold space-x-4">
-            <!-- @click="clearViewModel" -->
             <li>
               <div class="dropbtn">
                 <nuxt-link to="/BOOK" class="pb-6">BOOK</nuxt-link>
@@ -164,14 +163,82 @@
         <div class="flex container mx-auto">
           <form action="" class="flex justify-around w-full">
             <div class="flex w-11/12 flx my-4 pr-4">
-              <div class="flex w-2/5 space-x-4 justify-center">
+              <div class="flex w-2/5 space-x-4">
                 <!-- 彈跳視窗 -->
-                <nuxt-link to="/">
-                  <div class="text-6xl text-center">From</div>
-                  <div class="text-sm text-center">Your Origin</div>
-                </nuxt-link>
+                <div>
+                  <div v-if="value" class="overlay">
+                    <div class="modal px-8 py-6">
+                      <div class="flex item-center justify-end">
+                        <button @click.prevent="toggleModal">
+                          <fa :icon="['fas', 'times']" class="text-text" />
+                        </button>
+                      </div>
+
+                      <div class="p-3">
+                        <ul class="border-b-2 border-text">
+                          <li>
+                            <button
+                              class="w-1/3 text-primary text-center font-bold border-b-2 border-red pb-2"
+                            >
+                              SEARCH
+                            </button>
+                          </li>
+                        </ul>
+
+                        <div class="mt-6 text-primary">
+                          Origin
+                        </div>
+                        <div class="border-b-2 border-text">
+                          <input
+                            class="w-4/5 inputText text-black"
+                            placeholder="City or Airport"
+                            v-model="searchQuery"
+                          />
+                          <fa
+                            :icon="['fas', 'search']"
+                            class="w-1/5 text-text"
+                          />
+                        </div>
+                        <div
+                          class="overflow-y-auto h-32 text-text"
+                          v-if="resources.length"
+                        >
+                          <ul>
+                            <li
+                              v-for="item in resultQuery"
+                              :key="item"
+                              class="border-b-1 border-gray-300 py-2 space-x-4"
+                            >
+                              <button
+                                @click.prevent="resultOrigin"
+                                class="w-full flex justify-start"
+                              >
+                                <span class="w-1/3 text-left">{{
+                                  item.shortening
+                                }}</span>
+                                <span class="w-2/3 text-left">{{
+                                  item.origin
+                                }}</span>
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- -->
+
+                <button @click.prevent="toggleModal">
+                  <div ref="from" class="text-6xl text-center">From</div>
+
+                  <div ref="startOrigin" class="text-sm text-center">
+                    Your Origin
+                  </div>
+                </button>
+
                 <!-- 相反箭頭 -->
-                <button class="text-red">
+                <button class="inputBtn text-red" @click.prevent="exchange">
                   <fa
                     :icon="['fas', 'arrows-alt-h']"
                     class="font-light text-5xl"
@@ -179,20 +246,84 @@
                 </button>
 
                 <!-- 彈跳視窗 -->
-                <nuxt-link to="/">
-                  <div class="text-6xl text-center">To</div>
+                <div>
+                  <div v-if="trigger" class="overlay">
+                    <div class="modal px-8 py-6">
+                      <div class="flex item-center justify-end">
+                        <button @click.prevent="toggleDestinationModal">
+                          <fa :icon="['fas', 'times']" class="text-text" />
+                        </button>
+                      </div>
 
-                  <div class="text-sm text-center">Your Destination</div>
-                </nuxt-link>
+                      <div class="p-3">
+                        <ul class="border-b-2 border-text">
+                          <li>
+                            <button
+                              class="w-1/3 text-primary text-center font-bold border-b-2 border-red pb-2"
+                            >
+                              SEARCH
+                            </button>
+                          </li>
+                        </ul>
+
+                        <div class="mt-6 text-primary">
+                          Destination
+                        </div>
+                        <div class="border-b-2 border-text">
+                          <input
+                            class="w-4/5 inputText text-black"
+                            placeholder="City or Airport"
+                            v-model="searchQueryDestination"
+                          />
+                          <fa
+                            :icon="['fas', 'search']"
+                            class="w-1/5 text-text"
+                          />
+                        </div>
+                        <div
+                          class="overflow-y-auto h-32 text-text"
+                          v-if="resourcesDestination.length"
+                        >
+                          <ul>
+                            <li
+                              v-for="item in resultQueryDestination"
+                              :key="item"
+                              class="border-b-1 border-gray-300 py-2 space-x-4"
+                            >
+                              <button
+                                @click.prevent="resultDestination"
+                                class="w-full flex justify-start"
+                              >
+                                <span class="w-1/3 text-left">{{
+                                  item.shortening
+                                }}</span>
+                                <span class="w-2/3 text-left">{{
+                                  item.origin
+                                }}</span>
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button @click.prevent="toggleDestinationModal">
+                  <div ref="to" class="text-6xl text-center">To</div>
+                  <div ref="destination" class="text-sm text-center">
+                    Your Destination
+                  </div>
+                </button>
               </div>
               <!-- 下拉式 -->
-              <div class="flex w-3/5">
-                <div class="h-60 relative">
-                  <span class="absolute right-2"
+              <div class="flex w-3/5 space-x-6">
+                <div class="h-60">
+                  <!-- <span class="absolute right-2"
                     ><fa :icon="['fas', 'chevron-down']"
-                  /></span>
+                  /></span> -->
                   <select
-                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red selectParent"
+                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red"
                   >
                     <option value="Round Trip">Round Trip</option>
                     <option value="OneWay">One Way</option>
@@ -200,9 +331,57 @@
                   </select>
                 </div>
                 <!-- 日期 -->
+                <button
+                  @click.prevent="triggerCalendar"
+                  class="border-b-1 border-text h-20 text-2xl px-2 py-2 relative"
+                >
+                  <span>Depart</span>
+                  <span class="text-red"> - </span>
+                  <span>Return</span>
+                  <fa
+                    :icon="['far', 'calendar-minus']"
+                    class="ml-6 text-text"
+                  />
+                  <div
+                    v-if="valueCalendar"
+                    class="absolute bg-white calendar text-base p-4"
+                  >
+                    <div class="flex">
+                      <div>
+                        <fa
+                          :icon="['fas', 'chevron-left']"
+                          class="ml-6 text-text"
+                        />
+                      </div>
+                      <div>
+                        <div>January 2021</div>
+                        <div></div>
+                      </div>
+                      <div></div>
+                      <div>
+                        <fa
+                          :icon="['fas', 'chevron-right']"
+                          class="ml-6 text-text"
+                        />
+                      </div>
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                      <button class="text-clear font-bold">Clear</button>
+                      <button class="text-white font-bold bg-red px-6 py-2">
+                        DONE
+                      </button>
+                    </div>
+                  </div>
+                </button>
+
                 <!-- 下拉式 -->
                 <div class="h-60">
-                  <select class="bg-primary">
+                  <!-- <span class="absolute right-2"
+                    ><fa :icon="['fas', 'chevron-down']"
+                  /></span> -->
+                  <select
+                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red"
+                  >
                     <option value="1Passenger">1 Passenger</option>
                     <option value="2Passengers">2 Passengers</option>
                     <option value="3Passengers">3 Passengers</option>
@@ -215,14 +394,10 @@
                   </select>
                 </div>
               </div>
-              <!-- ---------------- -->
-
-              <!-- 勾選欄位+彈跳視窗 -->
-              <!-- 勾選欄位+彈跳視窗 -->
-              <!-- 勾選欄位 -->
             </div>
+
+            <!-- 按鈕 -->
             <div class="text-white w-1/12 my-4 px-4 font-semibold">
-              <!-- 按鈕 -->
               <button class="button-leftarrow bg-red rounded-full">
                 <fa :icon="['fas', 'arrow-right']" />
               </button>
@@ -350,10 +525,37 @@
 </template>
 
 <script>
+// import Modal from "@/components/Modal";
+
 export default {
-  name: "menu1",
+  // name: "menu1",
   data() {
     return {
+      searchQuery: null,
+      resources: [
+        { shortening: "RMQ", origin: "Taichung" },
+        { shortening: "TIF", origin: "Taif, Saudi Arabia" },
+        { shortening: "TNN", origin: "Tainan" },
+        { shortening: "TPE", origin: "Taipei" },
+        { shortening: "TSA", origin: "Taipei" },
+        { shortening: "TYN", origin: "Taiyuan" },
+        { shortening: "HYN", origin: "Taizhou" },
+        { shortening: "KHH", origin: "Kaohsiung" },
+      ],
+      searchQueryDestination: null,
+      resourcesDestination: [
+        { shortening: "RMQ", origin: "Taichung" },
+        { shortening: "TIF", origin: "Taif, Saudi Arabia" },
+        { shortening: "TNN", origin: "Tainan" },
+        { shortening: "TPE", origin: "Taipei" },
+        { shortening: "TSA", origin: "Taipei" },
+        { shortening: "TYN", origin: "Taiyuan" },
+        { shortening: "HYN", origin: "Taizhou" },
+        { shortening: "KHH", origin: "Kaohsiung" },
+      ],
+      value: false,
+      trigger: false,
+      valueCalendar: false,
       menu: ["BOOK", "CHECK-IN", "MY TRIPS", "FLIGHT", "STATUS"],
       menu2: [
         "Delta One®",
@@ -452,15 +654,116 @@ export default {
       menu14: [],
     };
   },
+
   methods: {
-    clearViewModel() {
-      console.log("this");
+    toggleModal() {
+      this.value = !this.value;
+    },
+    toggleDestinationModal() {
+      this.trigger = !this.trigger;
+    },
+    triggerCalendar() {
+      this.valueCalendar = !this.valueCalendar;
+    },
+    resultOrigin(event) {
+      this.value = !this.value;
+      const shortOrigin = event.currentTarget.firstChild.innerHTML;
+      const fullOrigin = event.currentTarget.lastChild.innerHTML;
+      this.$refs.from.innerHTML = shortOrigin;
+      this.$refs.startOrigin.innerHTML = fullOrigin;
+    },
+    resultDestination(event) {
+      this.trigger = !this.trigger;
+      const shortDestination = event.currentTarget.firstChild.innerHTML;
+      const fullDestination = event.currentTarget.lastChild.innerHTML;
+      this.$refs.to.innerHTML = shortDestination;
+      this.$refs.destination.innerHTML = fullDestination;
+    },
+    exchange() {
+      const to = this.$refs.to.innerHTML;
+      const from = this.$refs.from.innerHTML;
+      const origin = this.$refs.startOrigin.innerHTML;
+      const destination = this.$refs.destination.innerHTML;
+
+      this.$refs.from.innerHTML = to;
+      this.$refs.to.innerHTML = from;
+      this.$refs.startOrigin.innerHTML = destination;
+      this.$refs.destination.innerHTML = origin;
     },
   },
+  computed: {
+    resultQuery() {
+      if (this.searchQuery) {
+        return this.resources.filter((item) => {
+          return this.searchQuery
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.origin.toLowerCase().includes(v));
+        });
+      } else {
+        return this.resources;
+      }
+    },
+    resultQueryDestination() {
+      if (this.searchQueryDestination) {
+        return this.resourcesDestination.filter((item) => {
+          return this.searchQueryDestination
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.origin.toLowerCase().includes(v));
+        });
+      } else {
+        return this.resourcesDestination;
+      }
+    },
+  },
+  // comments: {
+  //   Modal,
+  // },
 };
 </script>
 
 <style>
+.calendar {
+  bottom: -38px;
+  left: -150px;
+  width: 600px;
+}
+
+.border-b-1 {
+  border-bottom-width: 1px;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  width: 450px;
+  box-shadow: 1px 2px 4px rgba(153, 155, 160, 0.12);
+  border-radius: 2px;
+  background: white;
+}
+
+.inputText:focus {
+  border-bottom-width: 2px;
+  border-color: #11172b;
+  outline: none;
+  padding-bottom: 2px;
+}
+
+.inputBtn:focus {
+  outline-color: #7d8388;
+}
+
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;

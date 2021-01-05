@@ -7,6 +7,7 @@ module.exports = {
                 icon_red: "#E51937",
                 hover_red: "#9D182B",
                 text: "#7D8388",
+                clear: "#4470c3",
             },
         },
     },
