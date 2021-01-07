@@ -162,9 +162,9 @@
       <div class="w-full bg-primary text-white p-4">
         <div class="flex container mx-auto">
           <form action="" class="flex justify-around w-full">
-            <div class="flex w-11/12 flx my-4 pr-4">
+            <div class="flex items-center w-11/12 flx my-4 pr-4">
               <div class="flex w-2/5 space-x-4">
-                <!-- 彈跳視窗 -->
+                <!-- origin modal -->
                 <div>
                   <div v-if="value" class="overlay">
                     <div class="modal px-8 py-6">
@@ -227,25 +227,9 @@
                     </div>
                   </div>
                 </div>
-                <!-- -->
+                <!-- origin modal (end)-->
 
-                <button @click.prevent="toggleModal">
-                  <div ref="from" class="text-6xl text-center">From</div>
-
-                  <div ref="startOrigin" class="text-sm text-center">
-                    Your Origin
-                  </div>
-                </button>
-
-                <!-- 相反箭頭 -->
-                <button class="inputBtn text-red" @click.prevent="exchange">
-                  <fa
-                    :icon="['fas', 'arrows-alt-h']"
-                    class="font-light text-5xl"
-                  />
-                </button>
-
-                <!-- 彈跳視窗 -->
+                <!--Destination modal -->
                 <div>
                   <div v-if="trigger" class="overlay">
                     <div class="modal px-8 py-6">
@@ -308,6 +292,23 @@
                     </div>
                   </div>
                 </div>
+                <!--Destination modal (end)-->
+
+                <button @click.prevent="toggleModal">
+                  <div ref="from" class="text-6xl text-center">From</div>
+
+                  <div ref="startOrigin" class="text-sm text-center">
+                    Your Origin
+                  </div>
+                </button>
+
+                <!-- arrow btn -->
+                <button class="inputBtn text-red" @click.prevent="exchange">
+                  <fa
+                    :icon="['fas', 'arrows-alt-h']"
+                    class="font-light text-5xl"
+                  />
+                </button>
 
                 <button @click.prevent="toggleDestinationModal">
                   <div ref="to" class="text-6xl text-center">To</div>
@@ -316,51 +317,62 @@
                   </div>
                 </button>
               </div>
-              <!-- 下拉式 -->
-              <div class="flex w-3/5 space-x-6 relative">
-                <div class="h-60">
+
+              <div class="flex w-3/5 space-x-6 relative" id="menu1">
+                <!-- roundTrip select -->
+
+                <div>
                   <!-- <span class="absolute right-2"
                     ><fa :icon="['fas', 'chevron-down']"
                   /></span> -->
                   <select
-                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red"
+                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
+                    @change="onchange()"
+                    v-model="key"
                   >
                     <option value="Round Trip">Round Trip</option>
                     <option value="OneWay">One Way</option>
                     <option value="Multi-City">Multi-City</option>
                   </select>
                 </div>
-                <!-- 日期 -->
+
+                <!-- Round Trip Calendar -->
                 <button
                   @click.prevent="triggerCalendar"
                   class="border-b-1 border-text h-20 text-2xl px-2 py-2"
+                  v-if="showRoundTrip"
                 >
-                  <span>Depart</span>
+                  <span ref="depart" class="depart">Depart</span>
                   <span class="text-red"> - </span>
-                  <span>Return</span>
+                  <span ref="return" class="return">Return</span>
                   <fa
                     :icon="['far', 'calendar-minus']"
                     class="ml-6 text-text"
                   />
                 </button>
+
                 <div
                   v-if="valueCalendar"
-                  class="absolute bg-white calendardiv text-base p-4"
+                  class="flex flex-wrap content-between absolute bg-white calendardiv text-base p-6"
                 >
-                  <div class="flex space-x-4">
+                  <div class="flex space-x-4 w-full" id="calendar">
                     <button @click.prevent="prevMonth">
                       <fa
+                        ref="premonthBtn"
                         :icon="['fas', 'chevron-left']"
                         class="ml-6 text-text"
                       />
                     </button>
+
                     <div class="containerCalendar">
                       <div class="calendar">
                         <div class="month text-calendarMonth" id="month">
-                          <div class="date flex space-x-4 my-6">
-                            <h1 ref="prevmonth" class="font-bold">January</h1>
+                          <div class="date font-bold flex space-x-4 my-6">
+                            <h1 ref="prevmonth">January</h1>
                             <p>2021</p>
-                            <p class="hidden" ref="monthcount">{{ month }}</p>
+                            <p class="hidden" ref="premonthcount">
+                              {{ premonthcount }}
+                            </p>
                           </div>
                         </div>
                         <div class="weekdays text-text flex">
@@ -374,16 +386,19 @@
                         </div>
                         <div
                           ref="prevmonthDays"
-                          class="days text-calendarDate flex"
+                          class="days text-calendarDate flex predays"
                         ></div>
                       </div>
                     </div>
                     <div class="containerCalendar">
                       <div class="calendar">
                         <div class="month text-calendarMonth" id="month">
-                          <div class="date flex space-x-4 my-6">
-                            <h1 ref="nextmonth" class="font-bold">January</h1>
+                          <div class="date flex space-x-4 my-6 font-bold">
+                            <h1 ref="nextmonth">January</h1>
                             <p>2021</p>
+                            <p class="hidden" ref="nextmonthcount">
+                              {{ nextmonthcount }}
+                            </p>
                           </div>
                         </div>
                         <div class="weekdays text-text flex">
@@ -401,28 +416,44 @@
                         ></div>
                       </div>
                     </div>
+
                     <button @click.prevent="nextMonth">
                       <fa
                         :icon="['fas', 'chevron-right']"
-                        class="ml-6 text-text"
+                        class="ml-6 text-primary"
                       />
                     </button>
                   </div>
-                  <div class="flex justify-end space-x-4">
+                  <div class="flex justify-end space-x-4 w-full">
                     <button class="text-clear font-bold">Clear</button>
-                    <button class="text-white font-bold bg-red px-6 py-2">
+                    <button
+                      class="text-white font-bold bg-red px-6 py-2"
+                      @click.prevent="triggerCalendarDone"
+                    >
                       DONE
                     </button>
                   </div>
                 </div>
+                <!-- One way Calendar -->
+                <button
+                  @click.prevent="triggerCalendar"
+                  class="border-b-1 border-text h-20 text-2xl px-2 py-2"
+                  v-if="showOneWay"
+                >
+                  <span ref="depart" class="depart">Depart</span>
+                  <fa
+                    :icon="['far', 'calendar-minus']"
+                    class="ml-6 text-text"
+                  />
+                </button>
 
-                <!-- 下拉式 -->
-                <div class="h-60">
+                <!-- Passenger select -->
+                <div>
                   <!-- <span class="absolute right-2"
                     ><fa :icon="['fas', 'chevron-down']"
                   /></span> -->
                   <select
-                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red"
+                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
                   >
                     <option value="1Passenger">1 Passenger</option>
                     <option value="2Passengers">2 Passengers</option>
@@ -438,8 +469,10 @@
               </div>
             </div>
 
-            <!-- 按鈕 -->
-            <div class="text-white w-1/12 my-4 px-4 font-semibold">
+            <!-- form btn -->
+            <div
+              class="flex items-center text-white w-1/12 my-4 px-4 font-semibold"
+            >
               <button class="button-leftarrow bg-red rounded-full">
                 <fa :icon="['fas', 'arrow-right']" />
               </button>
@@ -570,10 +603,14 @@
 // import Modal from "@/components/Modal";
 
 export default {
-  // name: "menu1",
+  name: "menu1",
   data() {
     return {
-      month: 1,
+      key: "Round Trip",
+      showRoundTrip: true,
+      showOneWay: false,
+      premonthcount: 1,
+      nextmonthcount: 2,
       searchQuery: null,
       resources: [
         { shortening: "RMQ", origin: "Taichung" },
@@ -699,55 +736,79 @@ export default {
   },
 
   methods: {
+    onchange() {
+      // console.log(showOneWay);
+      // if (this.key === "OneWay") {
+      //   console.log("OneWay");
+      //   // showOneWay = true;
+      // }
+    },
+
     toggleModal() {
       this.value = !this.value;
     },
     toggleDestinationModal() {
       this.trigger = !this.trigger;
     },
+    triggerCalendarDone() {
+      this.valueCalendar = !this.valueCalendar;
+    },
     triggerCalendar(event) {
       this.valueCalendar = !this.valueCalendar;
       let date = new Date();
-      const render = () => {
-        date.setDate(1);
 
-        const prevlastDay = new Date(
-          date.getFullYear(),
-          date.getMonth() + 1,
-          0
-        ).getDate();
+      date.setDate(1);
 
-        const prevLastDay = new Date(
-          date.getFullYear(),
-          date.getMonth(),
-          0
-        ).getDate();
-        console.log(prevLastDay);
+      const prevlastDay = new Date(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        0
+      ).getDate();
 
-        const prevfirstDayIndex = date.getDay();
-        console.log(prevfirstDayIndex);
-        console.log(date);
+      const nextlastDay = new Date(
+        date.getFullYear(),
+        date.getMonth() + 2,
+        0
+      ).getDate();
 
-        const months = [
-          "January",
-          "Fabruary",
-          "Mrach",
-          "April",
-          "May",
-          "June",
-          "July",
-          "September",
-          "October",
-          "November",
-          "December",
-        ];
+      const prevLastDay = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        0
+      ).getDate();
 
-        this.$nextTick(function () {
+      const prevfirstDayIndex = date.getDay();
+      const nextfirstDayIndex = new Date(
+        date.getFullYear(),
+        date.getMonth() + 1
+      ).getDay();
+
+      const months = [
+        "January",
+        "Fabruary",
+        "Mrach",
+        "April",
+        "May",
+        "June",
+        "July",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
+      this.$nextTick(function () {
+        const render = () => {
           this.$refs.prevmonth.innerHTML = months[date.getMonth()];
+          this.$refs.nextmonth.innerHTML = months[date.getMonth() + 1];
+
           let prevDays = "";
+          let nextDays = "";
 
           for (let x = prevfirstDayIndex; x > 0; x--) {
-            prevDays += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
+            prevDays += `<input type="button" class="prev-date"value=${
+              prevLastDay - x + 1
+            }>`;
           }
 
           for (let i = 1; i <= prevlastDay; i++) {
@@ -755,25 +816,46 @@ export default {
               i === new Date().getDate() &&
               date.getMonth() === new Date().getMonth()
             ) {
-              prevDays += `<div class=" today">${i}</div>`;
+              prevDays += `<input type="button" class="today day" value=${i}>`;
             } else {
-              prevDays += `<div class="">${i}</div>`;
+              prevDays += `<input type="button" class="day" value=${i}>`;
             }
             this.$refs.prevmonthDays.innerHTML = prevDays;
           }
+
+          for (let b = nextfirstDayIndex; b > 0; b--) {
+            nextDays += `<input type="button" class="prev-date" value=${
+              prevlastDay - b + 1
+            }>`;
+          }
+          for (let a = 1; a <= nextlastDay; a++) {
+            nextDays += `<input type="button" class="day" value=${a}>`;
+            this.$refs.nextmonthDays.innerHTML = nextDays;
+          }
+        };
+        render();
+        const today = document.querySelector("#calendar");
+
+        today.addEventListener("click", function (event) {
+          let counterRed = document.querySelectorAll(".isActive");
+
+          if (event.target.classList.contains("day") && counterRed.length < 2) {
+            event.target.classList.add("isActive");
+            let day = event.target.value;
+            let shortMonth = event.path[2]
+              .querySelector("h1")
+              .innerHTML.slice(0, 3);
+            let departText = shortMonth + " " + day;
+            document.querySelector(".depart").innerHTML = departText;
+            console.log(document.querySelector(".depart"));
+          } else if (counterRed.length === 2) {
+            render();
+          }
         });
-      };
-      render();
+      });
     },
+
     prevMonth(event) {
-      let monthcount = parseInt(this.$refs.monthcount.innerHTML); //當月月份
-      if (monthcount < 2) {
-        monthcount = 12;
-        this.$refs.monthcount.innerHTML = monthcount;
-      } else {
-        monthcount -= 1;
-        this.$refs.monthcount.innerHTML = monthcount;
-      }
       const months = [
         "January",
         "Fabruary",
@@ -789,38 +871,81 @@ export default {
         "December",
       ];
       let date = new Date();
-      this.$refs.prevmonth.innerHTML = months[monthcount - 1];
+      let premonthcount = parseInt(this.$refs.premonthcount.innerHTML);
+      let nextmonthcount = parseInt(this.$refs.nextmonthcount.innerHTML);
+      if (premonthcount < 2) {
+        premonthcount = 11;
+        nextmonthcount = 12;
+      } else {
+        premonthcount -= 1;
+        nextmonthcount -= 1;
+      }
+      this.$refs.premonthcount.innerHTML = premonthcount;
+      this.$refs.nextmonthcount.innerHTML = nextmonthcount;
+      this.$refs.prevmonth.innerHTML = months[premonthcount - 1];
+      this.$refs.nextmonth.innerHTML = months[nextmonthcount - 1];
 
-      const prevLastDay = new Date(date.getFullYear(), monthcount, 0).getDate();
+      const prevLastDay = new Date(
+        date.getFullYear(),
+        premonthcount - 1,
+        0
+      ).getDate();
+
       const prevfirstDayIndex = new Date(
         date.getFullYear(),
-        monthcount,
-        0
+        premonthcount - 1
       ).getDay();
 
-      date.setDate(1);
-      this.$nextTick(function () {
-        let prevDays = "";
-        console.log(prevfirstDayIndex);
-        for (let x = prevfirstDayIndex; x > 0; x--) {
-          prevDays += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
-        }
+      const nextfirstDayIndex = new Date(
+        date.getFullYear(),
+        nextmonthcount - 1
+      ).getDay();
 
-        for (let i = 1; i <= prevLastDay; i++) {
-          prevDays += `<div>${i}</div>`;
-          this.$refs.prevmonthDays.innerHTML = prevDays;
+      const prevlastDay = new Date(
+        date.getFullYear(),
+        premonthcount,
+        0
+      ).getDate();
+
+      const nextlastDay = new Date(
+        date.getFullYear(),
+        nextmonthcount,
+        0
+      ).getDate();
+
+      let nextDays = "";
+      let prevDays = "";
+
+      for (let x = prevfirstDayIndex; x > 0; x--) {
+        prevDays += `<input type="button" class="prev-date" value=${
+          prevLastDay - x + 1
+        }>`;
+      }
+      for (let a = 1; a <= prevlastDay; a++) {
+        if (
+          a === new Date().getDate() &&
+          new Date().getMonth() === premonthcount - 1
+        ) {
+          prevDays += `<input type="button" class="today day" value=${a}>`;
+        } else {
+          prevDays += `<input type="button" class="day" value=${a}>`;
         }
-      });
+        this.$refs.prevmonthDays.innerHTML = prevDays;
+      }
+      for (let c = nextfirstDayIndex; c > 0; c--) {
+        nextDays += `<input type="button" class="prev-date" value=${
+          prevlastDay - c + 1
+        }>`;
+      }
+
+      for (let b = 1; b <= nextlastDay; b++) {
+        nextDays += `<input type="button" class="day" value=${b}>`;
+        this.$refs.nextmonthDays.innerHTML = nextDays;
+      }
     },
+
     nextMonth(event) {
-      let monthcount = parseInt(this.$refs.monthcount.innerHTML); //當月月份
-      if (monthcount > 11) {
-        monthcount = 1;
-        this.$refs.monthcount.innerHTML = monthcount;
-      } else {
-        monthcount += 1;
-        this.$refs.monthcount.innerHTML = monthcount;
-      }
+      let date = new Date();
       const months = [
         "January",
         "Fabruary",
@@ -835,28 +960,82 @@ export default {
         "November",
         "December",
       ];
-      let date = new Date();
-      this.$refs.prevmonth.innerHTML = months[monthcount - 1];
 
-      const prevLastDay = new Date(date.getFullYear(), monthcount, 0).getDate();
+      let premonthcount = parseInt(this.$refs.premonthcount.innerHTML);
+      let nextmonthcount = parseInt(this.$refs.nextmonthcount.innerHTML);
+
+      if (nextmonthcount > 11) {
+        premonthcount = 1;
+        nextmonthcount = 2;
+      } else {
+        premonthcount += 1;
+        nextmonthcount += 1;
+      }
+      this.$refs.premonthcount.innerHTML = premonthcount;
+      this.$refs.nextmonthcount.innerHTML = nextmonthcount;
+      this.$refs.prevmonth.innerHTML = months[premonthcount - 1];
+      this.$refs.nextmonth.innerHTML = months[nextmonthcount - 1];
+
+      const prevLastDay = new Date(
+        date.getFullYear(),
+        premonthcount - 1,
+        0
+      ).getDate();
+
       const prevfirstDayIndex = new Date(
         date.getFullYear(),
-        monthcount,
-        0
+        premonthcount - 1
       ).getDay();
 
-      date.setDate(1);
-      this.$nextTick(function () {
-        let prevDays = "";
-        console.log(prevfirstDayIndex);
-        for (let x = prevfirstDayIndex; x > 0; x--) {
-          prevDays += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
+      const nextfirstDayIndex = new Date(
+        date.getFullYear(),
+        nextmonthcount - 1
+      ).getDay();
+
+      const prevlastDay = new Date(
+        date.getFullYear(),
+        premonthcount,
+        0
+      ).getDate();
+
+      const nextlastDay = new Date(
+        date.getFullYear(),
+        nextmonthcount,
+        0
+      ).getDate();
+
+      let nextDays = "";
+      let prevDays = "";
+
+      for (let x = prevfirstDayIndex; x > 0; x--) {
+        prevDays += `<input type="button" class="prev-date" value=${
+          prevLastDay - x + 1
+        }>`;
+      }
+
+      for (let a = 1; a <= prevlastDay; a++) {
+        if (
+          a === new Date().getDate() &&
+          new Date().getMonth() === premonthcount - 1
+        ) {
+          prevDays += `<input type="button" class="today day" value=${a}>`;
+        } else {
+          prevDays += `<input type="button"  class="day" value=${a}>`;
         }
-        for (let i = 1; i <= prevLastDay; i++) {
-          prevDays += `<div>${i}</div>`;
-          this.$refs.prevmonthDays.innerHTML = prevDays;
-        }
-      });
+
+        this.$refs.prevmonthDays.innerHTML = prevDays;
+      }
+
+      for (let c = nextfirstDayIndex; c > 0; c--) {
+        nextDays += `<input type="button" class="prev-date" value=${
+          prevlastDay - c + 1
+        }>`;
+      }
+
+      for (let b = 1; b <= nextlastDay; b++) {
+        nextDays += `<input type="button" class="day" value=${b}>`;
+        this.$refs.nextmonthDays.innerHTML = nextDays;
+      }
     },
 
     resultOrigin(event) {
@@ -917,11 +1096,10 @@ export default {
 .containerCalendar {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 }
 .calendar {
   width: 20rem;
-  border: 1px solid black;
 }
 
 .month {
@@ -941,7 +1119,6 @@ export default {
 }
 
 .weekdays div {
-  border: 1px solid black;
   font-weight: 400;
   justify-content: center;
   align-items: center;
@@ -952,23 +1129,27 @@ export default {
   flex-wrap: wrap;
   padding: 0.2rem;
 }
-.days div {
+.days input {
   margin: 0.3rem;
   height: 2rem;
   font-weight: 600;
   width: calc(15.2rem / 7);
   text-align: center;
   align-items: center;
-  transition: background-color 0.2s;
+
+  /* transition: background-color 0.2s; */
 }
 
-.days div:hover:not(.today) {
-  background-color: rgba(125, 131, 136, 0.1);
+.day {
+  background: white;
+}
+.days input:hover:not(.today) {
+  /* background-color: rgba(125, 131, 136, 0.1); */
   cursor: pointer;
 }
 
-.prev-date,
-.next-date {
+.prev-date {
+  visibility: hidden;
   opacity: 0.5;
 }
 
@@ -977,9 +1158,17 @@ export default {
   border-radius: 50%;
 }
 
+.isActive {
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
 .calendardiv {
   left: -150px;
   width: 800px;
+  bottom: -450px;
+  height: 450px;
 }
 
 .border-b-1 {
@@ -991,7 +1180,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  /* background-color: rgba(0, 0, 0, 0.3); */
   z-index: 100;
   display: flex;
   align-items: center;
