@@ -1,8 +1,13 @@
 <template>
   <div class="text-white">
     <div class="container mx-auto">
-      <div></div>
-      <div></div>
+      <div id="watch-example">
+        <p>
+          Ask a yes/no question:
+          <input v-model="question" />
+        </p>
+        <p>{{ answer }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -12,6 +17,10 @@ export default {
   head: {
     title: "Airlin Tickets & Flights: Book Direct With Delta Line",
     meta: [{ hid: "Delta", name: "Delta", content: "Delta" }],
+  },
+
+  data() {
+    return {};
   },
 };
 </script>

@@ -1063,6 +1063,7 @@ export default {
       this.$refs.destination.innerHTML = origin;
     },
   },
+
   computed: {
     resultQuery() {
       if (this.searchQuery) {
@@ -1087,6 +1088,9 @@ export default {
       } else {
         return this.resourcesDestination;
       }
+    },
+    showRoundTrip: function () {
+      console.log(this.key);
     },
   },
 };

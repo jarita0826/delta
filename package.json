@@ -24,5 +24,17 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "3.3.4"
-  }
+  },
+  "description": "## Build Setup",
+  "main": "nuxt.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarita0826/delta.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jarita0826/delta/issues"
+  },
+  "homepage": "https://github.com/jarita0826/delta#readme"
 }
