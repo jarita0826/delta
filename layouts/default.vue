@@ -706,8 +706,6 @@ export default {
         "Cookies,Privacy & Security",
         "Human Trafficking Statement",
       ],
-      menu13: [],
-      menu14: [],
     };
   },
   components: {
@@ -717,16 +715,6 @@ export default {
     FormBtn,
   },
   methods: {
-    onchange() {
-      if (this.key === "OneWay") {
-        this.showOneWay = true;
-        this.showRoundTrip = false;
-      } else if (this.key === "Round Trip") {
-        console.log("ddf");
-        // this.showOneWay = false;
-        // this.showRoundTrip = true;
-      }
-    },
     toggleModal() {
       this.value = !this.value;
     },
@@ -738,91 +726,91 @@ export default {
     },
     triggerCalendar(event) {
       this.valueCalendar = !this.valueCalendar;
-      let date = new Date();
-      date.setDate(1);
-      const prevlastDay = new Date(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        0
-      ).getDate();
-      const nextlastDay = new Date(
-        date.getFullYear(),
-        date.getMonth() + 2,
-        0
-      ).getDate();
-      const prevLastDay = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        0
-      ).getDate();
-      const prevfirstDayIndex = date.getDay();
-      const nextfirstDayIndex = new Date(
-        date.getFullYear(),
-        date.getMonth() + 1
-      ).getDay();
-      const months = [
-        "January",
-        "Fabruary",
-        "Mrach",
-        "April",
-        "May",
-        "June",
-        "July",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      this.$nextTick(function () {
-        const render = () => {
-          this.$refs.prevmonth.innerHTML = months[date.getMonth()];
-          this.$refs.nextmonth.innerHTML = months[date.getMonth() + 1];
-          let prevDays = "";
-          let nextDays = "";
-          for (let x = prevfirstDayIndex; x > 0; x--) {
-            prevDays += `<input type="button" class="prev-date"value=${
-              prevLastDay - x + 1
-            }>`;
-          }
-          for (let i = 1; i <= prevlastDay; i++) {
-            if (
-              i === new Date().getDate() &&
-              date.getMonth() === new Date().getMonth()
-            ) {
-              prevDays += `<input type="button" class="today day" value=${i}>`;
-            } else {
-              prevDays += `<input type="button" class="day" value=${i}>`;
-            }
-            this.$refs.prevmonthDays.innerHTML = prevDays;
-          }
-          for (let b = nextfirstDayIndex; b > 0; b--) {
-            nextDays += `<input type="button" class="prev-date" value=${
-              prevlastDay - b + 1
-            }>`;
-          }
-          for (let a = 1; a <= nextlastDay; a++) {
-            nextDays += `<input type="button" class="day" value=${a}>`;
-            this.$refs.nextmonthDays.innerHTML = nextDays;
-          }
-        };
-        render();
-        const today = document.querySelector("#calendar");
-        today.addEventListener("click", function (event) {
-          let counterRed = document.querySelectorAll(".isActive");
-          if (event.target.classList.contains("day") && counterRed.length < 2) {
-            event.target.classList.add("isActive");
-            let day = event.target.value;
-            let shortMonth = event.path[2]
-              .querySelector("h1")
-              .innerHTML.slice(0, 3);
-            let departText = shortMonth + " " + day;
-            document.querySelector(".depart").innerHTML = departText;
-            console.log(document.querySelector(".depart"));
-          } else if (counterRed.length === 2) {
-            render();
-          }
-        });
-      });
+      // let date = new Date();
+      // date.setDate(1);
+      // const prevlastDay = new Date(
+      //   date.getFullYear(),
+      //   date.getMonth() + 1,
+      //   0
+      // ).getDate();
+      // const nextlastDay = new Date(
+      //   date.getFullYear(),
+      //   date.getMonth() + 2,
+      //   0
+      // ).getDate();
+      // const prevLastDay = new Date(
+      //   date.getFullYear(),
+      //   date.getMonth(),
+      //   0
+      // ).getDate();
+      // const prevfirstDayIndex = date.getDay();
+      // const nextfirstDayIndex = new Date(
+      //   date.getFullYear(),
+      //   date.getMonth() + 1
+      // ).getDay();
+      // const months = [
+      //   "January",
+      //   "Fabruary",
+      //   "Mrach",
+      //   "April",
+      //   "May",
+      //   "June",
+      //   "July",
+      //   "September",
+      //   "October",
+      //   "November",
+      //   "December",
+      // ];
+      // this.$nextTick(function () {
+      //   const render = () => {
+      //     this.$refs.prevmonth.innerHTML = months[date.getMonth()];
+      //     this.$refs.nextmonth.innerHTML = months[date.getMonth() + 1];
+      //     let prevDays = "";
+      //     let nextDays = "";
+      //     for (let x = prevfirstDayIndex; x > 0; x--) {
+      //       prevDays += `<input type="button" class="prev-date"value=${
+      //         prevLastDay - x + 1
+      //       }>`;
+      //     }
+      //     for (let i = 1; i <= prevlastDay; i++) {
+      //       if (
+      //         i === new Date().getDate() &&
+      //         date.getMonth() === new Date().getMonth()
+      //       ) {
+      //         prevDays += `<input type="button" class="today day" value=${i}>`;
+      //       } else {
+      //         prevDays += `<input type="button" class="day" value=${i}>`;
+      //       }
+      //       this.$refs.prevmonthDays.innerHTML = prevDays;
+      //     }
+      //     for (let b = nextfirstDayIndex; b > 0; b--) {
+      //       nextDays += `<input type="button" class="prev-date" value=${
+      //         prevlastDay - b + 1
+      //       }>`;
+      //     }
+      //     for (let a = 1; a <= nextlastDay; a++) {
+      //       nextDays += `<input type="button" class="day" value=${a}>`;
+      //       this.$refs.nextmonthDays.innerHTML = nextDays;
+      //     }
+      //   };
+      //   render();
+      //   const today = document.querySelector("#calendar");
+      //   today.addEventListener("click", function (event) {
+      //     let counterRed = document.querySelectorAll(".isActive");
+      //     if (event.target.classList.contains("day") && counterRed.length < 2) {
+      //       event.target.classList.add("isActive");
+      //       let day = event.target.value;
+      //       let shortMonth = event.path[2]
+      //         .querySelector("h1")
+      //         .innerHTML.slice(0, 3);
+      //       let departText = shortMonth + " " + day;
+      //       document.querySelector(".depart").innerHTML = departText;
+      //       console.log(document.querySelector(".depart"));
+      //     } else if (counterRed.length === 2) {
+      //       render();
+      //     }
+      //   });
+      // });
     },
     prevMonth(event) {
       const months = [

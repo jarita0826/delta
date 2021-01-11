@@ -11,7 +11,9 @@
         <FlightContent />
       </div>
       <!-- SingularCalendar -->
-      <div class="w-2/12"></div>
+      <div class="w-2/12">
+        <SingularCalendar />
+      </div>
       <!-- Connection (Optional) -->
       <div class="w-4/12"></div>
     </div>
@@ -21,13 +23,13 @@
 
 <script>
 import FlightContent from "@/components/FlightContent";
-// import SingularCalendar from "@/components/SingularCalendar";
+import SingularCalendar from "@/components/SingularCalendar";
 // import Connection from "@/components/Connection";
 
 export default {
   data() {
     return {};
   },
-  components: { FlightContent },
+  components: { FlightContent, SingularCalendar },
 };
 </script>
