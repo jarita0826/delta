@@ -160,7 +160,7 @@
     </div>
     <div class="container mx-auto justify-between list-none">
       <div class="w-full bg-primary text-white p-4">
-        <div class="flex container mx-auto">
+        <div class="container mx-auto">
           <form action="" class="flex justify-around w-full">
             <div class="flex items-center w-11/12 flx my-4 pr-4">
               <div class="flex w-2/5 space-x-4">
@@ -169,6 +169,7 @@
                   <div v-if="value" class="overlay">
                     <div class="modal px-8 py-6">
                       <div class="flex item-center justify-end">
+                        <!--  -->
                         <button @click.prevent="toggleModal">
                           <fa :icon="['fas', 'times']" class="text-text" />
                         </button>
@@ -296,7 +297,6 @@
 
                 <button @click.prevent="toggleModal">
                   <div ref="from" class="text-6xl text-center">From</div>
-
                   <div ref="startOrigin" class="text-sm text-center">
                     Your Origin
                   </div>
@@ -322,18 +322,7 @@
                 <!-- roundTrip select -->
 
                 <div>
-                  <!-- <span class="absolute right-2"
-                    ><fa :icon="['fas', 'chevron-down']"
-                  /></span> -->
-                  <select
-                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
-                    @change="onchange()"
-                    v-model="key"
-                  >
-                    <option value="Round Trip">Round Trip</option>
-                    <option value="OneWay">One Way</option>
-                    <option value="Multi-City">Multi-City</option>
-                  </select>
+                  <SelectWrapper />
                 </div>
 
                 <!-- Round Trip Calendar -->
@@ -350,7 +339,7 @@
                     class="ml-6 text-text"
                   />
                 </button>
-
+                <!-- Calendar modal -->
                 <div
                   v-if="valueCalendar"
                   class="flex flex-wrap content-between absolute bg-white calendardiv text-base p-6"
@@ -449,22 +438,7 @@
 
                 <!-- Passenger select -->
                 <div>
-                  <!-- <span class="absolute right-2"
-                    ><fa :icon="['fas', 'chevron-down']"
-                  /></span> -->
-                  <select
-                    class="bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
-                  >
-                    <option value="1Passenger">1 Passenger</option>
-                    <option value="2Passengers">2 Passengers</option>
-                    <option value="3Passengers">3 Passengers</option>
-                    <option value="4Passengers">4 Passengers</option>
-                    <option value="5Passengers">5 Passengers</option>
-                    <option value="6Passengers">6 Passengers</option>
-                    <option value="7Passengers">7 Passengers</option>
-                    <option value="8Passengers">8 Passengers</option>
-                    <option value="9Passengers">9 Passengers</option>
-                  </select>
+                  <Passenger />
                 </div>
               </div>
             </div>
@@ -473,11 +447,10 @@
             <div
               class="flex items-center text-white w-1/12 my-4 px-4 font-semibold"
             >
-              <button class="button-leftarrow bg-red rounded-full">
-                <fa :icon="['fas', 'arrow-right']" />
-              </button>
+              <FormBtn />
             </div>
           </form>
+          <MultiCity />
         </div>
       </div>
     </div>
@@ -600,7 +573,10 @@
 </template>
 
 <script>
-// import Modal from "@/components/Modal";
+import MultiCity from "@/components/MultiCity";
+import SelectWrapper from "@/components/SelectWrapper";
+import Passenger from "@/components/Passenger";
+import FormBtn from "@/components/FormBtn";
 
 export default {
   name: "menu1",
@@ -734,16 +710,23 @@ export default {
       menu14: [],
     };
   },
-
+  components: {
+    MultiCity,
+    SelectWrapper,
+    Passenger,
+    FormBtn,
+  },
   methods: {
     onchange() {
-      // console.log(showOneWay);
-      // if (this.key === "OneWay") {
-      //   console.log("OneWay");
-      //   // showOneWay = true;
-      // }
+      if (this.key === "OneWay") {
+        this.showOneWay = true;
+        this.showRoundTrip = false;
+      } else if (this.key === "Round Trip") {
+        console.log("ddf");
+        // this.showOneWay = false;
+        // this.showRoundTrip = true;
+      }
     },
-
     toggleModal() {
       this.value = !this.value;
     },
@@ -756,33 +739,27 @@ export default {
     triggerCalendar(event) {
       this.valueCalendar = !this.valueCalendar;
       let date = new Date();
-
       date.setDate(1);
-
       const prevlastDay = new Date(
         date.getFullYear(),
         date.getMonth() + 1,
         0
       ).getDate();
-
       const nextlastDay = new Date(
         date.getFullYear(),
         date.getMonth() + 2,
         0
       ).getDate();
-
       const prevLastDay = new Date(
         date.getFullYear(),
         date.getMonth(),
         0
       ).getDate();
-
       const prevfirstDayIndex = date.getDay();
       const nextfirstDayIndex = new Date(
         date.getFullYear(),
         date.getMonth() + 1
       ).getDay();
-
       const months = [
         "January",
         "Fabruary",
@@ -796,21 +773,17 @@ export default {
         "November",
         "December",
       ];
-
       this.$nextTick(function () {
         const render = () => {
           this.$refs.prevmonth.innerHTML = months[date.getMonth()];
           this.$refs.nextmonth.innerHTML = months[date.getMonth() + 1];
-
           let prevDays = "";
           let nextDays = "";
-
           for (let x = prevfirstDayIndex; x > 0; x--) {
             prevDays += `<input type="button" class="prev-date"value=${
               prevLastDay - x + 1
             }>`;
           }
-
           for (let i = 1; i <= prevlastDay; i++) {
             if (
               i === new Date().getDate() &&
@@ -822,7 +795,6 @@ export default {
             }
             this.$refs.prevmonthDays.innerHTML = prevDays;
           }
-
           for (let b = nextfirstDayIndex; b > 0; b--) {
             nextDays += `<input type="button" class="prev-date" value=${
               prevlastDay - b + 1
@@ -835,10 +807,8 @@ export default {
         };
         render();
         const today = document.querySelector("#calendar");
-
         today.addEventListener("click", function (event) {
           let counterRed = document.querySelectorAll(".isActive");
-
           if (event.target.classList.contains("day") && counterRed.length < 2) {
             event.target.classList.add("isActive");
             let day = event.target.value;
@@ -854,7 +824,6 @@ export default {
         });
       });
     },
-
     prevMonth(event) {
       const months = [
         "January",
@@ -884,38 +853,31 @@ export default {
       this.$refs.nextmonthcount.innerHTML = nextmonthcount;
       this.$refs.prevmonth.innerHTML = months[premonthcount - 1];
       this.$refs.nextmonth.innerHTML = months[nextmonthcount - 1];
-
       const prevLastDay = new Date(
         date.getFullYear(),
         premonthcount - 1,
         0
       ).getDate();
-
       const prevfirstDayIndex = new Date(
         date.getFullYear(),
         premonthcount - 1
       ).getDay();
-
       const nextfirstDayIndex = new Date(
         date.getFullYear(),
         nextmonthcount - 1
       ).getDay();
-
       const prevlastDay = new Date(
         date.getFullYear(),
         premonthcount,
         0
       ).getDate();
-
       const nextlastDay = new Date(
         date.getFullYear(),
         nextmonthcount,
         0
       ).getDate();
-
       let nextDays = "";
       let prevDays = "";
-
       for (let x = prevfirstDayIndex; x > 0; x--) {
         prevDays += `<input type="button" class="prev-date" value=${
           prevLastDay - x + 1
@@ -937,13 +899,11 @@ export default {
           prevlastDay - c + 1
         }>`;
       }
-
       for (let b = 1; b <= nextlastDay; b++) {
         nextDays += `<input type="button" class="day" value=${b}>`;
         this.$refs.nextmonthDays.innerHTML = nextDays;
       }
     },
-
     nextMonth(event) {
       let date = new Date();
       const months = [
@@ -960,10 +920,8 @@ export default {
         "November",
         "December",
       ];
-
       let premonthcount = parseInt(this.$refs.premonthcount.innerHTML);
       let nextmonthcount = parseInt(this.$refs.nextmonthcount.innerHTML);
-
       if (nextmonthcount > 11) {
         premonthcount = 1;
         nextmonthcount = 2;
@@ -975,44 +933,36 @@ export default {
       this.$refs.nextmonthcount.innerHTML = nextmonthcount;
       this.$refs.prevmonth.innerHTML = months[premonthcount - 1];
       this.$refs.nextmonth.innerHTML = months[nextmonthcount - 1];
-
       const prevLastDay = new Date(
         date.getFullYear(),
         premonthcount - 1,
         0
       ).getDate();
-
       const prevfirstDayIndex = new Date(
         date.getFullYear(),
         premonthcount - 1
       ).getDay();
-
       const nextfirstDayIndex = new Date(
         date.getFullYear(),
         nextmonthcount - 1
       ).getDay();
-
       const prevlastDay = new Date(
         date.getFullYear(),
         premonthcount,
         0
       ).getDate();
-
       const nextlastDay = new Date(
         date.getFullYear(),
         nextmonthcount,
         0
       ).getDate();
-
       let nextDays = "";
       let prevDays = "";
-
       for (let x = prevfirstDayIndex; x > 0; x--) {
         prevDays += `<input type="button" class="prev-date" value=${
           prevLastDay - x + 1
         }>`;
       }
-
       for (let a = 1; a <= prevlastDay; a++) {
         if (
           a === new Date().getDate() &&
@@ -1022,22 +972,18 @@ export default {
         } else {
           prevDays += `<input type="button"  class="day" value=${a}>`;
         }
-
         this.$refs.prevmonthDays.innerHTML = prevDays;
       }
-
       for (let c = nextfirstDayIndex; c > 0; c--) {
         nextDays += `<input type="button" class="prev-date" value=${
           prevlastDay - c + 1
         }>`;
       }
-
       for (let b = 1; b <= nextlastDay; b++) {
         nextDays += `<input type="button" class="day" value=${b}>`;
         this.$refs.nextmonthDays.innerHTML = nextDays;
       }
     },
-
     resultOrigin(event) {
       this.value = !this.value;
       const shortOrigin = event.currentTarget.firstChild.innerHTML;
@@ -1063,7 +1009,6 @@ export default {
       this.$refs.destination.innerHTML = origin;
     },
   },
-
   computed: {
     resultQuery() {
       if (this.searchQuery) {
@@ -1088,9 +1033,6 @@ export default {
       } else {
         return this.resourcesDestination;
       }
-    },
-    showRoundTrip: function () {
-      console.log(this.key);
     },
   },
 };
