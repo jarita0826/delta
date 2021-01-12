@@ -102,7 +102,7 @@
   left: 10px;
 }
 
-input[type="checkbox"] {
+/* input[type="checkbox"] {
   width: auto;
   opacity: 0.00000001;
   position: absolute;
@@ -116,7 +116,7 @@ input[type="checkbox"]:checked ~ label::after {
 
 input[type="checkbox"]:focus + label::before {
   outline: 0;
-}
+} */
 
 .slide-fade-enter-active {
   transition: all 0.3s ease;

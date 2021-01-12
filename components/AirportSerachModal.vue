@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white" v-show="value">
+  <div class="z-10 bg-white" v-show="value">
     <div class="modal px-8 py-6">
       <div class="flex item-center justify-end">
         <button @click.prevent="close">
@@ -42,7 +42,5 @@ export default {
       this.$emit("input", !this.value);
     },
   },
-
-  computed: {},
 };
 </script>

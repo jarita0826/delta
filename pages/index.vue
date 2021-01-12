@@ -1,14 +1,6 @@
 <template>
   <div class="text-white">
-    <div class="container mx-auto">
-      <div id="watch-example">
-        <p>
-          Ask a yes/no question:
-          <input v-model="question" />
-        </p>
-        <p>{{ answer }}</p>
-      </div>
-    </div>
+    <div class="container mx-auto"></div>
   </div>
 </template>
 

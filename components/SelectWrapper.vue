@@ -1,6 +1,6 @@
 <template>
   <select
-    class="bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
+    class="w-full bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
     @change="onchange()"
     v-model="key"
   >

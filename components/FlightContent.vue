@@ -1,5 +1,5 @@
 <template>
-  <div class="flex text-text border-b-1 border-text justify-between">
+  <div class="flex text-text border-b-1 border-text justify-between py-2">
     <!-- From Content -->
 
     <button class="text-3xl relative" @click.prevent="toggleModal">

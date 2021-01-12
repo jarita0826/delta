@@ -1,5 +1,7 @@
 <template>
-  <select class="bg-primary border-b-1 text-2xl border-white p-2 text-red h-20">
+  <select
+    class="w-full bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
+  >
     <option value="1Passenger">1 Passenger</option>
     <option value="2Passengers">2 Passengers</option>
     <option value="3Passengers">3 Passengers</option>
