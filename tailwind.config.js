@@ -10,6 +10,7 @@ module.exports = {
                 clear: "#4470c3",
                 calendarMonth: "#0b1f66",
                 calendarDate: "#0b1453",
+                freeze: "#828794",
             },
         },
     },

@@ -1,7 +1,7 @@
 <template>
   <select
-    class="w-full bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
-    @change="onchange()"
+    class="w-full bg-primary border-b-1 text-xl border-white p-2 text-red h-14"
+    @change="selfUpdate()"
     v-model="key"
   >
     <option value="Round Trip">Round Trip</option>
@@ -18,15 +18,8 @@ export default {
     };
   },
   methods: {
-    onchange() {
-      console.log(this.key);
-      if (this.key === "OneWay") {
-        this.showOneWay = true;
-        this.showRoundTrip = false;
-      } else if (this.key === "Round Trip") {
-        this.showOneWay = false;
-        this.showRoundTrip = true;
-      }
+    selfUpdate() {
+      this.$emit("input", this.key);
     },
   },
 };

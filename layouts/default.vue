@@ -161,296 +161,311 @@
     <div class="container mx-auto justify-between list-none">
       <div class="w-full bg-primary text-white p-4">
         <div class="container mx-auto">
-          <form action="" class="flex justify-around w-full">
-            <div class="flex items-center w-11/12 flx my-4 pr-4">
-              <div class="flex w-2/5 space-x-4">
-                <!-- origin modal -->
-                <div>
-                  <div v-if="value" class="overlay">
-                    <div class="modal px-8 py-6">
-                      <div class="flex item-center justify-end">
-                        <!--  -->
-                        <button @click.prevent="toggleModal">
-                          <fa :icon="['fas', 'times']" class="text-text" />
-                        </button>
-                      </div>
-
-                      <div class="p-3">
-                        <ul class="border-b-2 border-text">
-                          <li>
-                            <button
-                              class="w-1/3 text-primary text-center font-bold border-b-2 border-red pb-2"
-                            >
-                              SEARCH
-                            </button>
-                          </li>
-                        </ul>
-
-                        <div class="mt-6 text-primary">
-                          Origin
+          <form ref="way" v-if="wayValue" class="flex justify-around w-full">
+            <div class="w-11/12">
+              <div class="flex items-center my-4 pr-4">
+                <div class="flex w-2/6 space-x-4">
+                  <!-- origin modal -->
+                  <div>
+                    <div v-if="value" class="overlay">
+                      <div class="modal px-8 py-6">
+                        <div class="flex item-center justify-end">
+                          <!--  -->
+                          <button @click.prevent="toggleModal">
+                            <fa :icon="['fas', 'times']" class="text-text" />
+                          </button>
                         </div>
-                        <div class="border-b-2 border-text">
-                          <input
-                            class="w-4/5 inputText text-black"
-                            placeholder="City or Airport"
-                            v-model="searchQuery"
-                          />
-                          <fa
-                            :icon="['fas', 'search']"
-                            class="w-1/5 text-text"
-                          />
-                        </div>
-                        <div
-                          class="overflow-y-auto h-32 text-text"
-                          v-if="resources.length"
-                        >
-                          <ul>
-                            <li
-                              v-for="item in resultQuery"
-                              :key="item"
-                              class="border-b-1 border-gray-300 py-2 space-x-4"
-                            >
+
+                        <div class="p-3">
+                          <ul class="border-b-2 border-text">
+                            <li>
                               <button
-                                @click.prevent="resultOrigin"
-                                class="w-full flex justify-start"
+                                class="w-1/3 text-primary text-center font-bold border-b-2 border-red pb-2"
                               >
-                                <span class="w-1/3 text-left">{{
-                                  item.shortening
-                                }}</span>
-                                <span class="w-2/3 text-left">{{
-                                  item.origin
-                                }}</span>
+                                SEARCH
                               </button>
                             </li>
                           </ul>
+
+                          <div class="mt-6 text-primary">
+                            Origin
+                          </div>
+                          <div class="border-b-2 border-text">
+                            <input
+                              class="w-4/5 inputText text-black"
+                              placeholder="City or Airport"
+                              v-model="searchQuery"
+                            />
+                            <fa
+                              :icon="['fas', 'search']"
+                              class="w-1/5 text-text"
+                            />
+                          </div>
+                          <div
+                            class="overflow-y-auto h-32 text-text"
+                            v-if="resources.length"
+                          >
+                            <ul>
+                              <li
+                                v-for="item in resultQuery"
+                                :key="item"
+                                class="border-b-1 border-gray-300 py-2 space-x-4"
+                              >
+                                <button
+                                  @click.prevent="resultOrigin"
+                                  class="w-full flex justify-start"
+                                >
+                                  <span class="w-1/3 text-left">{{
+                                    item.shortening
+                                  }}</span>
+                                  <span class="w-2/3 text-left">{{
+                                    item.origin
+                                  }}</span>
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- origin modal (end)-->
+                  <!-- origin modal (end)-->
 
-                <!--Destination modal -->
-                <div>
-                  <div v-if="trigger" class="overlay">
-                    <div class="modal px-8 py-6">
-                      <div class="flex item-center justify-end">
-                        <button @click.prevent="toggleDestinationModal">
-                          <fa :icon="['fas', 'times']" class="text-text" />
-                        </button>
-                      </div>
-
-                      <div class="p-3">
-                        <ul class="border-b-2 border-text">
-                          <li>
-                            <button
-                              class="w-1/3 text-primary text-center font-bold border-b-2 border-red pb-2"
-                            >
-                              SEARCH
-                            </button>
-                          </li>
-                        </ul>
-
-                        <div class="mt-6 text-primary">
-                          Destination
+                  <!--Destination modal -->
+                  <div>
+                    <div v-if="trigger" class="overlay">
+                      <div class="modal px-8 py-6">
+                        <div class="flex item-center justify-end">
+                          <button @click.prevent="toggleDestinationModal">
+                            <fa :icon="['fas', 'times']" class="text-text" />
+                          </button>
                         </div>
-                        <div class="border-b-2 border-text">
-                          <input
-                            class="w-4/5 inputText text-black"
-                            placeholder="City or Airport"
-                            v-model="searchQueryDestination"
-                          />
-                          <fa
-                            :icon="['fas', 'search']"
-                            class="w-1/5 text-text"
-                          />
-                        </div>
-                        <div
-                          class="overflow-y-auto h-32 text-text"
-                          v-if="resourcesDestination.length"
-                        >
-                          <ul>
-                            <li
-                              v-for="item in resultQueryDestination"
-                              :key="item"
-                              class="border-b-1 border-gray-300 py-2 space-x-4"
-                            >
+
+                        <div class="p-3">
+                          <ul class="border-b-2 border-text">
+                            <li>
                               <button
-                                @click.prevent="resultDestination"
-                                class="w-full flex justify-start"
+                                class="w-1/3 text-primary text-center font-bold border-b-2 border-red pb-2"
                               >
-                                <span class="w-1/3 text-left">{{
-                                  item.shortening
-                                }}</span>
-                                <span class="w-2/3 text-left">{{
-                                  item.origin
-                                }}</span>
+                                SEARCH
                               </button>
                             </li>
                           </ul>
+
+                          <div class="mt-6 text-primary">
+                            Destination
+                          </div>
+                          <div class="border-b-2 border-text">
+                            <input
+                              class="w-4/5 inputText text-black"
+                              placeholder="City or Airport"
+                              v-model="searchQueryDestination"
+                            />
+                            <fa
+                              :icon="['fas', 'search']"
+                              class="w-1/5 text-text"
+                            />
+                          </div>
+                          <div
+                            class="overflow-y-auto h-32 text-text"
+                            v-if="resourcesDestination.length"
+                          >
+                            <ul>
+                              <li
+                                v-for="item in resultQueryDestination"
+                                :key="item"
+                                class="border-b-1 border-gray-300 py-2 space-x-4"
+                              >
+                                <button
+                                  @click.prevent="resultDestination"
+                                  class="w-full flex justify-start"
+                                >
+                                  <span class="w-1/3 text-left">{{
+                                    item.shortening
+                                  }}</span>
+                                  <span class="w-2/3 text-left">{{
+                                    item.origin
+                                  }}</span>
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <!--Destination modal (end)-->
+                  <!--Destination modal (end)-->
 
-                <button @click.prevent="toggleModal">
-                  <div ref="from" class="text-6xl text-center">From</div>
-                  <div ref="startOrigin" class="text-sm text-center">
-                    Your Origin
-                  </div>
-                </button>
+                  <button @click.prevent="toggleModal">
+                    <div ref="from" class="text-6xl text-center">From</div>
+                    <div ref="startOrigin" class="text-sm text-center">
+                      Your Origin
+                    </div>
+                  </button>
 
-                <!-- arrow btn -->
-                <button class="inputBtn text-red" @click.prevent="exchange">
-                  <fa
-                    :icon="['fas', 'arrows-alt-h']"
-                    class="font-light text-5xl"
-                  />
-                </button>
+                  <!-- arrow btn -->
+                  <button class="inputBtn text-red" @click.prevent="exchange">
+                    <fa
+                      :icon="['fas', 'arrows-alt-h']"
+                      class="font-light text-5xl"
+                    />
+                  </button>
 
-                <button @click.prevent="toggleDestinationModal">
-                  <div ref="to" class="text-6xl text-center">To</div>
-                  <div ref="destination" class="text-sm text-center">
-                    Your Destination
-                  </div>
-                </button>
-              </div>
-
-              <div class="flex w-3/5 space-x-6 relative" id="menu1">
-                <!-- roundTrip select -->
-
-                <div>
-                  <SelectWrapper />
+                  <button @click.prevent="toggleDestinationModal">
+                    <div ref="to" class="text-6xl text-center">To</div>
+                    <div ref="destination" class="text-sm text-center">
+                      Your Destination
+                    </div>
+                  </button>
                 </div>
 
-                <!-- Round Trip Calendar -->
-                <button
-                  @click.prevent="triggerCalendar"
-                  class="border-b-1 border-text h-20 text-2xl px-2 py-2"
-                  v-if="showRoundTrip"
-                >
-                  <span ref="depart" class="depart">Depart</span>
-                  <span class="text-red"> - </span>
-                  <span ref="return" class="return">Return</span>
-                  <fa
-                    :icon="['far', 'calendar-minus']"
-                    class="ml-6 text-text"
-                  />
-                </button>
-                <!-- Calendar modal -->
                 <div
-                  v-if="valueCalendar"
-                  class="flex flex-wrap content-between absolute bg-white calendardiv text-base p-6"
+                  class="flex w-4/6 space-x-6 justify-between relative"
+                  id="menu1"
                 >
-                  <div class="flex space-x-4 w-full" id="calendar">
-                    <button @click.prevent="prevMonth">
+                  <!-- roundTrip select -->
+
+                  <div class="w-1/3">
+                    <SelectWrapper v-model="change" />
+                    {{ change }}
+                  </div>
+
+                  <!-- Round Trip Calendar -->
+                  <div class="w-1/3" v-if="showRoundTrip">
+                    <button
+                      @click.prevent="triggerCalendar"
+                      class="border-b-1 border-text h-14 text-xl px-2 py-2"
+                    >
+                      <span ref="depart" class="depart">Depart</span>
+                      <span class="text-red"> - </span>
+                      <span ref="return" class="return">Return</span>
                       <fa
-                        ref="premonthBtn"
-                        :icon="['fas', 'chevron-left']"
+                        :icon="['far', 'calendar-minus']"
                         class="ml-6 text-text"
                       />
                     </button>
+                  </div>
+                  <!-- Calendar modal -->
+                  <div
+                    v-if="valueCalendar"
+                    class="flex flex-wrap content-between absolute bg-white calendardiv text-base p-6"
+                  >
+                    <div class="flex space-x-4 w-full" id="calendar">
+                      <button @click.prevent="prevMonth">
+                        <fa
+                          ref="premonthBtn"
+                          :icon="['fas', 'chevron-left']"
+                          class="ml-6 text-text"
+                        />
+                      </button>
 
-                    <div class="containerCalendar">
-                      <div class="calendar">
-                        <div class="month text-calendarMonth" id="month">
-                          <div class="date font-bold flex space-x-4 my-6">
-                            <h1 ref="prevmonth">January</h1>
-                            <p>2021</p>
-                            <p class="hidden" ref="premonthcount">
-                              {{ premonthcount }}
-                            </p>
+                      <div class="containerCalendar">
+                        <div class="calendar">
+                          <div class="month text-calendarMonth" id="month">
+                            <div class="date font-bold flex space-x-4 my-6">
+                              <h1 ref="prevmonth">January</h1>
+                              <p>2021</p>
+                              <p class="hidden" ref="premonthcount">
+                                {{ premonthcount }}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <div class="weekdays text-text flex">
-                          <div class="text-center flex-1">S</div>
-                          <div class="text-center flex-1">M</div>
-                          <div class="text-center flex-1">T</div>
-                          <div class="text-center flex-1">W</div>
-                          <div class="text-center flex-1">T</div>
-                          <div class="text-center flex-1">F</div>
-                          <div class="text-center flex-1">S</div>
-                        </div>
-                        <div
-                          ref="prevmonthDays"
-                          class="days text-calendarDate flex predays"
-                        ></div>
-                      </div>
-                    </div>
-                    <div class="containerCalendar">
-                      <div class="calendar">
-                        <div class="month text-calendarMonth" id="month">
-                          <div class="date flex space-x-4 my-6 font-bold">
-                            <h1 ref="nextmonth">January</h1>
-                            <p>2021</p>
-                            <p class="hidden" ref="nextmonthcount">
-                              {{ nextmonthcount }}
-                            </p>
+                          <div class="weekdays text-text flex">
+                            <div class="text-center flex-1">S</div>
+                            <div class="text-center flex-1">M</div>
+                            <div class="text-center flex-1">T</div>
+                            <div class="text-center flex-1">W</div>
+                            <div class="text-center flex-1">T</div>
+                            <div class="text-center flex-1">F</div>
+                            <div class="text-center flex-1">S</div>
                           </div>
+                          <div
+                            ref="prevmonthDays"
+                            class="days text-calendarDate flex predays"
+                          ></div>
                         </div>
-                        <div class="weekdays text-text flex">
-                          <div class="text-center flex-1">S</div>
-                          <div class="text-center flex-1">M</div>
-                          <div class="text-center flex-1">T</div>
-                          <div class="text-center flex-1">W</div>
-                          <div class="text-center flex-1">T</div>
-                          <div class="text-center flex-1">F</div>
-                          <div class="text-center flex-1">S</div>
-                        </div>
-                        <div
-                          ref="nextmonthDays"
-                          class="days text-calendarDate flex"
-                        ></div>
                       </div>
-                    </div>
+                      <div class="containerCalendar">
+                        <div class="calendar">
+                          <div class="month text-calendarMonth" id="month">
+                            <div class="date flex space-x-4 my-6 font-bold">
+                              <h1 ref="nextmonth">January</h1>
+                              <p>2021</p>
+                              <p class="hidden" ref="nextmonthcount">
+                                {{ nextmonthcount }}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="weekdays text-text flex">
+                            <div class="text-center flex-1">S</div>
+                            <div class="text-center flex-1">M</div>
+                            <div class="text-center flex-1">T</div>
+                            <div class="text-center flex-1">W</div>
+                            <div class="text-center flex-1">T</div>
+                            <div class="text-center flex-1">F</div>
+                            <div class="text-center flex-1">S</div>
+                          </div>
+                          <div
+                            ref="nextmonthDays"
+                            class="days text-calendarDate flex"
+                          ></div>
+                        </div>
+                      </div>
 
-                    <button @click.prevent="nextMonth">
+                      <button @click.prevent="nextMonth">
+                        <fa
+                          :icon="['fas', 'chevron-right']"
+                          class="ml-6 text-primary"
+                        />
+                      </button>
+                    </div>
+                    <div class="flex justify-end space-x-4 w-full">
+                      <button class="text-clear font-bold">Clear</button>
+                      <button
+                        class="text-white font-bold bg-red px-6 py-2"
+                        @click.prevent="triggerCalendarDone"
+                      >
+                        DONE
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Calendar modal(end) -->
+
+                  <!-- One way Calendar -->
+                  <div class="w-1/3" v-if="showOneWay">
+                    <button
+                      @click.prevent="triggerCalendar"
+                      class="w-full flex justify-between items-center border-b-1 border-text h-14 text-xl px-2 py-2"
+                    >
+                      <span ref="depart" class="depart">Depart</span>
                       <fa
-                        :icon="['fas', 'chevron-right']"
-                        class="ml-6 text-primary"
+                        :icon="['far', 'calendar-minus']"
+                        class="ml-6 text-text"
                       />
                     </button>
                   </div>
-                  <div class="flex justify-end space-x-4 w-full">
-                    <button class="text-clear font-bold">Clear</button>
-                    <button
-                      class="text-white font-bold bg-red px-6 py-2"
-                      @click.prevent="triggerCalendarDone"
-                    >
-                      DONE
-                    </button>
+
+                  <!-- Passenger select -->
+                  <div class="w-1/3">
+                    <Passenger />
                   </div>
                 </div>
-                <!-- One way Calendar -->
-                <button
-                  @click.prevent="triggerCalendar"
-                  class="border-b-1 border-text h-20 text-2xl px-2 py-2"
-                  v-if="showOneWay"
-                >
-                  <span ref="depart" class="depart">Depart</span>
-                  <fa
-                    :icon="['far', 'calendar-minus']"
-                    class="ml-6 text-text"
-                  />
-                </button>
-
-                <!-- Passenger select -->
-                <div>
-                  <Passenger />
-                </div>
+              </div>
+              <div class="pl-8 mt-8">
+                <SearchOptions />
               </div>
             </div>
-
             <!-- form btn -->
             <div
-              class="flex items-center text-white w-1/12 my-4 px-4 font-semibold"
+              class="flex items-end text-white w-1/12 my-4 px-4 font-semibold mb-24"
             >
               <FormBtn />
             </div>
           </form>
-          <MultiCity />
+
+          <form ref="multiCityway" v-if="multiCityValue">
+            <MultiCity />
+          </form>
         </div>
       </div>
     </div>
@@ -577,12 +592,15 @@ import MultiCity from "@/components/MultiCity";
 import SelectWrapper from "@/components/SelectWrapper";
 import Passenger from "@/components/Passenger";
 import FormBtn from "@/components/FormBtn";
+import SearchOptions from "@/components/SearchOptions";
 
 export default {
   name: "menu1",
   data() {
     return {
-      key: "Round Trip",
+      wayValue: true,
+      multiCityValue: false,
+      change: "Round Trip",
       showRoundTrip: true,
       showOneWay: false,
       premonthcount: 1,
@@ -715,6 +733,9 @@ export default {
     FormBtn,
   },
   methods: {
+    selfUpdate() {
+      console.log(this.change);
+    },
     toggleModal() {
       this.value = !this.value;
     },
@@ -995,6 +1016,20 @@ export default {
       this.$refs.to.innerHTML = from;
       this.$refs.startOrigin.innerHTML = destination;
       this.$refs.destination.innerHTML = origin;
+    },
+  },
+  watch: {
+    change: function () {
+      if (this.change === "OneWay") {
+        this.showOneWay = true;
+        this.showRoundTrip = false;
+      } else if (this.change === "Round Trip") {
+        this.showOneWay = false;
+        this.showRoundTrip = true;
+      } else if (this.change === "Multi-City") {
+        this.wayValue = false;
+        this.multiCityValue = true;
+      }
     },
   },
   computed: {

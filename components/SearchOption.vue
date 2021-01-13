@@ -10,7 +10,7 @@
         @change.prevent="checked"
       />
       <label class="text-white ml-6" for="Shop with Miles"
-        >Shop with Miles{{ checkedOption }}</label
+        >Shop with Miles</label
       >
       <button @click="miles" class="ml-2">
         <fa :icon="['far', 'question-circle']" class="text-xl" />
@@ -43,8 +43,8 @@
         v-model="checkedOption"
         ref="RefundableFares"
       />
-      <label class="text-white ml-6" for="Refundable Fares">
-        Refundable Fares{{ checkedOption }}
+      <label class="text-white ml-6" for="Refundable Fares" ref="faresLabel">
+        Refundable Fares
       </label>
       <button @click="fares" class="ml-2">
         <fa :icon="['far', 'question-circle']" class="text-xl" />
@@ -127,7 +127,10 @@ export default {
     checked() {
       this.$refs.RefundableFares.disabled = !this.$refs.RefundableFares
         .disabled;
-      console.log();
+      if (this.$refs.RefundableFares.checked) {
+        this.$refs.RefundableFares.checked = false;
+      }
+      this.$refs.faresLabel.classList.toggle("text-freeze");
     },
   },
 };

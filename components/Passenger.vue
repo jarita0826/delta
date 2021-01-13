@@ -1,6 +1,6 @@
 <template>
   <select
-    class="w-full bg-primary border-b-1 text-2xl border-white p-2 text-red h-20"
+    class="w-full bg-primary border-b-1 text-xl border-white p-2 text-red h-14"
   >
     <option value="1Passenger">1 Passenger</option>
     <option value="2Passengers">2 Passengers</option>
