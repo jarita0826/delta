@@ -3,6 +3,18 @@
     <div class="flex justify-between">
       <div class="text-text flex space-x-8">
         <span>SEARCH OPTIONS</span>
+        <div
+          class="flex relative"
+          v-for="label in article[0].labels"
+          :key="label.id"
+        >
+          <CheckBox
+            :id="label.id"
+            :value="label.value"
+            :label="label.label"
+            :icon="label.icon"
+          />
+        </div>
         <div class="flex relative">
           <input
             type="checkbox"
@@ -156,7 +168,7 @@
             value="IncludeNearbyAirports"
             @change.prevent="nearbyChecked"
           />
-          <label class="text-white ml-6" for="Shop with Miles"
+          <label class="text-white ml-6" for="Include Nearby Airports"
             >Include Nearby Airports</label
           >
         </div>
@@ -166,7 +178,6 @@
         <div class="flex mt-2 items-center space-x-2">
           <select
             class="w-full bg-primary border-b-1 text-xl border-white p-2 text-red h-10"
-            v-model="key"
           >
             <option value="Basic Economy">Basic Economy</option>
             <option value="Main Cabin">Main Cabin</option>
@@ -178,7 +189,7 @@
           <fa :icon="['far', 'question-circle']" class="text-xl text-text" />
         </div>
       </div>
-      <div class="w-2/4 border-b-1">
+      <div class="w-2/4 border-b-1" ref="meetingCode">
         <div>MEETING EVENT CODE (Optional)</div>
         <div class="flex mt-2 items-center space-x-2">
           <input
@@ -200,13 +211,39 @@
 </template>
 
 <script>
+import CheckBox from "./CheckBox.vue";
 export default {
+  components: { CheckBox },
   data() {
     return {
       value: false,
       faresvalue: false,
-      checkedOption: [],
+      checkedOption: {},
       showfares: false,
+      article: [
+        {
+          labels: [
+            {
+              label: "Shop with Miles",
+              id: "ShopwithMiles",
+              value: "ShopwithMiles",
+              icon: "true",
+            },
+            {
+              label: "Refundable Fares",
+              id: "RefundableFares",
+              value: "RefundableFares",
+              icon: "true",
+            },
+            {
+              label: "My dates are flexible",
+              id: "flexible",
+              value: "flexible",
+              icon: !icon,
+            },
+          ],
+        },
+      ],
     };
   },
   methods: {
@@ -229,6 +266,7 @@ export default {
       } else {
         this.$refs.flexible.checked = false;
       }
+      console.log(this.$refs.faresLabel);
 
       this.$refs.faresLabel.classList.toggle("text-freeze");
       this.$refs.flexibleLabel.classList.toggle("text-freeze");
@@ -239,7 +277,9 @@ export default {
       this.$refs.caretUp.classList.toggle("hidden");
       console.log();
     },
-    nearbyChecked() {},
+    nearbyChecked() {
+      console.log("ddd");
+    },
   },
 };
 </script>
