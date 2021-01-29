@@ -13,12 +13,3 @@
     <option value="9Passengers">9 Passengers</option>
   </select>
 </template>
-
-<script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {},
-};
-</script>

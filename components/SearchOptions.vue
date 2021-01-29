@@ -3,39 +3,27 @@
     <div class="flex justify-between">
       <div class="text-text flex space-x-8">
         <span>SEARCH OPTIONS</span>
-        <div
-          class="flex relative"
-          v-for="label in article[0].labels"
-          :key="label.id"
-        >
+        <div class="flex" v-for="label in article[0].labels" :key="label.id">
           <CheckBox
             :id="label.id"
             :value="label.value"
-            :label="label.label"
+            :label="label.checkTitle"
             :icon="label.icon"
+            :inputClass="label.relative"
+            :modelTitle="label.modelTitle"
+            :description="label.description"
           />
-        </div>
-        <div class="flex relative">
-          <input
-            type="checkbox"
-            id="ShopwithMiles"
-            value="ShopwithMiles"
-            v-model="checkedOption"
-            @change.prevent="checked"
-          />
-          <label class="text-white ml-6" for="Shop with Miles"
-            >Shop with Miles</label
-          >
-          <a @click="miles" class="ml-2 cursor-pointer">
-            <fa :icon="['far', 'question-circle']" class="text-xl" />
-          </a>
 
+          <!--     v-model="checkedOption"
+            @change.prevent="checked" -->
           <!-- miles modal -->
+
           <div class="bg-white absolute mileModal z-10" v-show="value">
             <div class="px-8 py-6">
               <div class="flex item-center justify-between">
                 <span class="text-primary text-3xl">Shop with Miles</span>
-                <button @click="miles">
+                <button>
+                  <!-- @click="miles" -->
                   <fa :icon="['fas', 'times']" class="text-text" />
                 </button>
               </div>
@@ -47,26 +35,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="flex relative">
-          <input
-            type="checkbox"
-            id="RefundableFares"
-            value="RefundableFares"
-            v-model="checkedOption"
-            ref="RefundableFares"
-          />
-          <label
-            class="text-white ml-6"
-            for="Refundable Fares"
-            ref="faresLabel"
-          >
-            Refundable Fares
-          </label>
-          <a @click="fares" class="ml-2 cursor-pointer">
-            <fa :icon="['far', 'question-circle']" class="text-xl" />
-          </a>
           <!-- fares modal -->
           <div
             class="bg-white absolute mileModal z-10 text-black"
@@ -128,28 +96,11 @@
             </div>
           </div>
         </div>
-
-        <div class="flex">
-          <input
-            type="checkbox"
-            id="flexible"
-            value="flexible"
-            v-model="checkedOption"
-            ref="flexible"
-          />
-
-          <label
-            class="text-white ml-6"
-            for=" My dates are flexible"
-            ref="flexibleLabel"
-          >
-            My dates are flexible
-          </label>
-        </div>
       </div>
+
       <div>
         <a class="cursor-pointer" @click="advanced">
-          <span>Advanced Search</span>
+          <span>{{ article[1].span }}</span>
           <fa :icon="['fas', 'caret-down']" class="text-2xl" ref="caretDown" />
           <fa
             :icon="['fas', 'caret-up']"
@@ -159,22 +110,19 @@
         </a>
       </div>
     </div>
+
+    <!-- showfares -->
     <div class="flex mt-10 space-x-12 pr-10" v-if="showfares">
       <div class="w-1/4">
-        <div>SHOW FARES</div>
-        <div class="flex mt-4">
-          <input
-            type="checkbox"
-            value="IncludeNearbyAirports"
-            @change.prevent="nearbyChecked"
-          />
-          <label class="text-white ml-6" for="Include Nearby Airports"
-            >Include Nearby Airports</label
-          >
-        </div>
+        <CheckBox
+          :title="article[2].label.title"
+          :id="article[2].label.id"
+          :value="article[2].label.value"
+          :label="article[2].label.checkTitle"
+        />
       </div>
       <div class="w-1/4">
-        <div>Best fares for</div>
+        <div>{{ article[2].option2 }}</div>
         <div class="flex mt-2 items-center space-x-2">
           <select
             class="w-full bg-primary border-b-1 text-xl border-white p-2 text-red h-10"
@@ -190,7 +138,7 @@
         </div>
       </div>
       <div class="w-2/4 border-b-1" ref="meetingCode">
-        <div>MEETING EVENT CODE (Optional)</div>
+        <div>{{ article[2].option3 }}</div>
         <div class="flex mt-2 items-center space-x-2">
           <input
             type="text"
@@ -201,6 +149,8 @@
         </div>
       </div>
     </div>
+
+    <!--showfares foot-->
     <div class="flex justify-end mt-10 pr-10" v-if="showfares">
       <button>
         Use Certificates, eCredits, or Delta Gift Cards
@@ -224,32 +174,62 @@ export default {
         {
           labels: [
             {
-              label: "Shop with Miles",
+              checkTitle: "Shop with Miles",
               id: "ShopwithMiles",
               value: "ShopwithMiles",
-              icon: "true",
+              icon: true,
+              relative: "relative",
+              modelTitle: "Shop with Miles",
+              description:
+                "To learn more about booking Award/Mileage tickets please visit our FAQs",
             },
             {
-              label: "Refundable Fares",
+              checkTitle: "Refundable Fares",
               id: "RefundableFares",
               value: "RefundableFares",
-              icon: "true",
+              icon: true,
+              relative: "relative",
+              modelTitle: "Refundable Fares",
+              description: "Check the checkbox to search for refundable fares:",
             },
             {
-              label: "My dates are flexible",
+              checkTitle: "My dates are flexible",
               id: "flexible",
               value: "flexible",
-              icon: !icon,
+              relative: "",
             },
           ],
+        },
+        {
+          span: "Advanced Search ",
+        },
+        {
+          label: {
+            title: "SHOW FARES",
+            checkTitle: "Include Nearby Airports",
+            id: "NearbyAirports",
+            value: "NearbyAirports",
+          },
+          option1: "SHOW FARES",
+          option2: "Best fares for",
+          option3: "MEETING EVENT CODE (Optional)",
+          selects: [
+            "Basic Economy",
+            "Main Cabin",
+            "Delta Comfort+®",
+            "First Class",
+            "Delta Premium Select",
+            "Delta One®",
+          ],
+          code: "MEETING EVENT CODE (Optional)",
         },
       ],
     };
   },
   methods: {
-    miles() {
-      this.value = !this.value;
-    },
+    // miles() {
+    //   this.value = !this.value;
+    // },
     fares() {
       this.faresvalue = !this.faresvalue;
     },
@@ -313,14 +293,6 @@ input[type="checkbox"]:checked:after {
   position: absolute;
   top: 3px;
   left: 8px;
-}
-
-.mileModal {
-  top: -100px;
-  width: 700px;
-  box-shadow: 1px 2px 4px rgba(153, 155, 160, 0.12);
-  border-radius: 2px;
-  background: white;
 }
 
 .farestext li {
